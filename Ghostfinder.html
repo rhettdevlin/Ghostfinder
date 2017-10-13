@@ -9,7 +9,7 @@ body, html {
 
 .background {
 
-    background-image: url("mountain.jpg");
+    background-image: url("swaghouse.jpg");
 
     height: 100%; 
     background-position: center;
@@ -33,6 +33,7 @@ body, html {
     right: 16px;
     font-size: 22px;
     text-align: center;
+    color: white;
 }
 .highscore {
     position: absolute;
@@ -60,9 +61,15 @@ body, html {
     top: 32px;
     right: 14px;
     font-size: 22px;
+    color: white;
+}
+.reset {
+    position: absolute;
+    top: 8.5%;
+    right: 14px;
+    font-size: 22px;
 
 }
-
 
 
 </style>
@@ -75,6 +82,7 @@ body, html {
   <div class="start" id = "start" onclick="countdown()">Click <strong>this</strong> to Start</div>
   <div class = "find" id = "find">Find the ghost!</div>
   <div class = "countdown" id = "countdown">Timer: 10</div>
+  <div> <button class = "reset" id = "reset" onclick = "gamereset()"> Reset </button> </div>
 <img src="realghost.png" id = "item" class = "ghost" onclick="mover">
 
 
@@ -92,9 +100,6 @@ var highscore = localStorage.getItem("highscore");
 function hsDisplay() {
     document.getElementById("highscore").innerHTML = "Highscore: "+ highscore;
 }
-
-
-
 
 
 document.getElementById("item").addEventListener("click", mover);
@@ -132,9 +137,7 @@ var count=10;
          count = 0;
          alert("You got " + score + " points");
          highscoreCheck();
-
          location.reload();
-
       }
       
     }, 1000);
@@ -150,6 +153,11 @@ if(highscore !== null){
 else{
     localStorage.setItem("highscore", score);
 }
+
+}
+
+function gamereset() {
+location.reload();
 
 }
 
