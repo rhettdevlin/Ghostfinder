@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>Ghostfinder</title>
+        <!-- Favicon -->
+        <link href="realghost.png" rel="icon" type="image/x-icon" />
+<style>
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.background {
+
+    background-image: url("mountain.jpg");
+
+    height: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -1;
+}
+
+.start{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 75%);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.score {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 22px;
+    text-align: center;
+    color: white;
+}
+.highscore {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    font-size: 22px;
+}
+
+#item {
+  position: absolute; 
+  top: 0px; 
+  left: 0px; 
+  transition: all 0.1s;
+  opacity: 0;
+}
+.find{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);   
+    font-size: 24px;
+}
+.countdown{
+    position: absolute;
+    top: 32px;
+    right: 14px;
+    font-size: 22px;
+    color: white;
+}
+.reset {
+    position: absolute;
+    top: 8.5%;
+    right: 14px;
+    font-size: 22px;
+
+}
+
+
+</style>
+
+</head>
+<body onload = "hsDisplay()">
+
+<div class="background"></div>
+  <div class="score" id = "score">Score: 0</div>
+  <div class = "highscore" id = "highscore"> Highscore: </div>
+  <div class="start" id = "start" onclick="countdown()">Click <strong>this</strong> to Start</div>
+  <div class = "find" id = "find">Find the ghost!</div>
+  <div class = "countdown" id = "countdown">Timer: 60</div>
+  <div> <button class = "reset" id = "reset" onclick = "gamereset()"> Reset </button> </div>    
+<img src="realghost.png" id = "item" class = "ghost">
+
+
+
+
+
+<script type="text/javascript">
+
+
+var score = 0;
+var highscore = localStorage.getItem("highscore");
+
+
+
+function hsDisplay() {
+    document.getElementById("highscore").innerHTML = "Highscore: "+ highscore;
+}
+
+
+document.getElementById("item").addEventListener("click", mover);
+function mover() {
+    var x = Math.floor(Math.random()*500);
+    var y = Math.floor(Math.random()*1000);
+    document.getElementById("item").style.opacity = "0";
+    document.getElementById("item").style.top = x + 'px';
+    document.getElementById("item").style.left = y + 'px';
+    shower();
+    score = score + 1;
+    document.getElementById("score").innerHTML = "Score: " + score;
+}
+
+//fade in the ghost
+function shower(){
+   setTimeout(function(){ document.getElementById("item").style.opacity = "0.2" }, 200);
+   }
+
+var count=60;
+
+ function countdown(){  
+    document.getElementById("start").onclick = function(){
+        this.disabled = true;
+    }
+    mover();
+    document.getElementById("start").style.opacity = "0";
+    document.getElementById("start").style.display = "block";
+   document.getElementById("item").style.opacity = "0.2";
+
+    var timerId = setInterval(function() {
+        count--;
+        document.getElementById("countdown").innerHTML= "Timer: " + count; 
+      if (count == 0)
+      {
+         count = 0;
+         alert("You got " + score + " points");
+         highscoreCheck();
+         location.reload();
+      }
+      
+    }, 1000);
+}
+
+//Save the score to the highscore local spot if it is higher than the current highscore
+function highscoreCheck(){
+if(highscore !== null){
+    if (score > highscore) {
+        localStorage.setItem("highscore", score);
+        document.getElementById("highscore").innerHTML = "Highscore: "+ highscore;     
+    }
+}
+else{
+    localStorage.setItem("highscore", score);
+}
+
+}
+
+function gamereset() {
+location.reload();
+
+}
+
+
+</script>
+
+
+</body>
+</html>
